@@ -1,0 +1,5 @@
+{% for user in user_list %}
+    {% if user != request.user %}
+        <a href="{% url 'chat' user.username %}">{{ user.username }}</a>
+    {% endif %}
+{% endfor %}

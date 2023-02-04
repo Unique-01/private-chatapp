@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     'crispy_forms'
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+LOGOUT_REDIRECT_URL='index'
+LOGIN_REDIRECT_URL ='index'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

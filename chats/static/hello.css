@@ -1,0 +1,38 @@
+small{
+    font-size: xx-small;
+}
+.mb-10{
+    margin-bottom: 15%;
+}
+.ml-40{
+    margin-left: 40%;
+}
+.mr-40{
+    margin-right: 40%;
+}
+.cust-rounded{
+    border-radius: 10px;
+}
+.receive-bg{
+    background: linear-gradient(to right,blueviolet,rgb(173, 98, 243));
+}
+.send-bg{
+    background:linear-gradient(to right, green,rgb(36, 141, 36));
+}
+.rounded-o{
+    border-radius: 50%;
+}
+body{
+background-color: coral;
+}
+
+.bg{
+    background-color:burlywood;
+}
+.username{
+    color: purple;
+}
+.width{
+    min-height: 50vh;
+}
+

@@ -3,7 +3,7 @@ import json
 from .models import *
 from channels.db import database_sync_to_async
 from .models import Message
-from django.utils import timezone
+import datetime
 
 
 
@@ -39,8 +39,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        username = text_data_json['username']
         message = text_data_json['message']
-        timestamp = timezone.now().isoformat()
+        timestamp = datetime.datetime.now().isoformat()
 
         await self.save_message(sender=self.scope['user'],content=message,room=self.room_name)
 
@@ -48,17 +49,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type':'chatMessage',
+                'username':username,
                 'message':message,
                 'timestamp':timestamp
             }
         )  
 
     async def chatMessage(self,event):
+        username = event['username']
         message = event['message']
         timestamp = event['timestamp']
 
         await self.send(text_data=json.dumps(
             {
+                'username':username,
                 'message':message,
                 'timestamp':timestamp
             }

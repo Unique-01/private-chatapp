@@ -17,9 +17,10 @@ class Index(LoginRequiredMixin,ListView):
 def chatPage(request,username):
     now = datetime.datetime.now()
     users = User.objects.all()
+    user = User.objects.get(username=username)
     chatUser = [request.user.username,username]
     chatUser.sort()
     chatUser = ''.join(chatUser)
     messages = Message.objects.filter(room=chatUser).order_by('timestamp')
-    return render(request,'chatpage.html',{'username':username,'now':now,'messages':messages,'users':users})
+    return render(request,'chatpage.html',{'username':username,'now':now,'messages':messages,'users':users,'user':user})
 

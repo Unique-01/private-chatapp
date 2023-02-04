@@ -1,29 +1,67 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <div>
-        <h1>{{ username }}</h1>
-        <p id="connection">
-            Connection Status:
-            <span id="status"></span>
-        </p>
-        <div id="message-div">
+    <div class="container col-md-5 my-5">
+        <div class="bg px-3 py-1 rounded py-2">
+            <div class="d-flex ">
+                {% if user.profile.profile_image != None %}
+                    <img class="rounded-o"
+                         src="{{ user.profile.profile_image.url }}"
+                         alt=" "
+                         height="50px"
+                         width="50px"/>
+                {% endif %}
+                <h1 class="mx-3 username">{{ username|capfirst }}</h1>
+            </div>
+            <hr />
+            <p id="connection" class="d-flex justify-content-end">
+                Connection Status: &nbsp; <span id="status"></span>
+            </p>
+        </div>
+        <div id="message-div"
+             class=" width mb-10 p-3 text-light rounded"
+             style="background:url({% static 'chat2.jpg' %})">
             {% for message in messages %}
-                <p id="message-box" class="message-box">
-                    {{ message.content }}
-                    <br>
-                    {% if message.timestamp|date == now|date %}
-                        <small class="">{{ message.timestamp|time }}</small>
-                    {% else %}
-                        <small>{{ message.timestamp }}</small>
-                    {% endif %}
-                </p>
+                {% if message.sender == request.user %}
+                    <div class="d-flex justify-content-end ml-40">
+                        <p class="send-bg px-2 py-1 cust-rounded">
+                            <span>{{ message.content }}</span>
+                            <br />
+                            <small class="d-flex justify-content-end">
+                                {% if message.timestamp|date == now|date %}
+                                    {{ message.timestamp|time }}
+                                {% else %}
+                                    {{ message.timestamp }}
+                                {% endif %}
+                            </small>
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="d-flex justify-content-start mr-40">
+                        <p class="receive-bg cust-rounded px-2 py-1">
+                            <span>{{ message.content }}</span>
+                            <br />
+                            <small class="d-flex justify-content-start">
+                                {% if message.timestamp|date == now|date %}
+                                    {{ message.timestamp|time }}
+                                {% else %}
+                                    {{ message.timestamp }}
+                                {% endif %}
+                            </small>
+                        </p>
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
-        <input type="text" id="message-input">
-        <button type="submit" id="send-message">send</button>
+        <div class="input-group mb-3 fixed-bottom container col-md-6">
+            <input class="form-control" type="text" id="message-input" />
+            <div class="input-group-append">
+                <button class="btn btn-success" type="submit" id="send-message">send</button>
+            </div>
+        </div>
     </div>
     {{ now|time|json_script:"time-now" }}
     {{ username | json_script:"username" }}
+    {{ request.user.username|json_script:"request-username" }}
     <script src="{% static 'room.js' %}"></script>
 {% endblock content %}

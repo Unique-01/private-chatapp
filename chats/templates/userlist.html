@@ -1,5 +1,13 @@
-{% for user in user_list %}
-    {% if user != request.user %}
-        <a href="{% url 'chat' user.username %}">{{ user.username }}</a>
-    {% endif %}
-{% endfor %}
+<div class=" mt-5 mx-5 col-md-5 bg-dark p-4 rounded">
+    <h3 class="text-light">Users</h3>
+    <hr/>
+    {% for user in user_list %}
+        {% if user != request.user %}
+            <div>
+                <p>
+                    <span class="text-light">&raquo; </span><a class="text-light" href="{% url 'chat' user.username %}">{{ user.username|capfirst }}</a>
+                </p>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
